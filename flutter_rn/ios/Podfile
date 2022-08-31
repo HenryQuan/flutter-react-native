@@ -29,23 +29,11 @@ flutter_ios_podfile_setup
 
 target 'Runner' do
   use_frameworks!
-  use_modular_headers!
-
-  flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
 
   # setup react native
   # Your 'node_modules' directory is probably in the root of your project,
   # but if not, adjust the `:path` accordingly
-  # pod 'React-Core', :path => '../node_modules/react-native/'
-  pod 'React', :path => '../node_modules/react-native', :subspecs => [
-    # 'Core',
-    # 'CxxBridge', # Include this for RN >= 0.47
-    # 'DevSupport', # Include this to enable In-App Devmenu if RN >= 0.43
-    # 'RCTText',
-    # 'RCTNetwork',
-    # 'RCTWebSocket', # needed for debugging
-    # Add any other subspecs you want to use in your project
-  ]
+  pod 'React', :path => '../node_modules/react-native', :subspecs => []
 
   # Explicitly include Yoga if you are using RN >= 0.42.0
   pod "Yoga", :path => "../node_modules/react-native/ReactCommon/yoga"
@@ -55,10 +43,21 @@ target 'Runner' do
   pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
   # The guide is not updated yet, it is not `Folly``
   pod 'RCT-Folly', :podspec => '../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec'
+
+  use_modular_headers!
+  flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
 end
 
 post_install do |installer|
   installer.pods_project.targets.each do |target|
     flutter_additional_ios_build_settings(target)
+    target.build_configurations.each do |config|
+      version = "12.4"
+      # higher version causes issues
+      if target.name == "RCT-Folly"
+        version = "9.0"
+      end
+      config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = version
+    end
   end
 end
