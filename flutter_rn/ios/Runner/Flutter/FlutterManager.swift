@@ -18,11 +18,11 @@ class FlutterManager {
     func setupChannels(with controller: FlutterViewController) {
         rootController = controller
         let channel = FlutterMethodChannel(name: "FlutterChannel", binaryMessenger: controller.binaryMessenger)
-        channel.setMethodCallHandler { call, result in
+        channel.setMethodCallHandler { [weak self] call, result in
             switch call.method {
             case "show_rn":
                 // show the react native view here
-                
+                self?.showReactNativeController()
                 result(true)
             default:
                 result(FlutterMethodNotImplemented)
