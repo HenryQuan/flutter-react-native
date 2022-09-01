@@ -1,6 +1,10 @@
-# Uncomment this line to define a global platform for your project
-platform :ios, '12.4'
+require_relative '../node_modules/react-native/scripts/react_native_pods'
+require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
 
+platform :ios, '12.4'
+install! 'cocoapods', :deterministic_uuids => false
+
+production = ENV["PRODUCTION"] == "1"
 # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
 ENV['COCOAPODS_DISABLE_STATS'] = 'true'
 
@@ -28,29 +32,34 @@ require File.expand_path(File.join('packages', 'flutter_tools', 'bin', 'podhelpe
 flutter_ios_podfile_setup
 
 target 'Runner' do
+  config = use_native_modules!
+
+  # Flags change depending on the env values.
+  flags = get_default_flags()
+
+  use_react_native!(
+    :path => config[:reactNativePath],
+    # to enable hermes on iOS, change `false` to `true` and then install pods
+    :production => production,
+    :hermes_enabled => flags[:hermes_enabled],
+    :fabric_enabled => flags[:fabric_enabled],
+    :flipper_configuration => FlipperConfiguration.disabled,
+    # An absolute path to your application root.
+    :app_path => "#{Pod::Config.instance.installation_root}/.."
+  )
+
   use_frameworks!
-
-  # setup react native
-  # Your 'node_modules' directory is probably in the root of your project,
-  # but if not, adjust the `:path` accordingly
-  pod 'React', :path => '../node_modules/react-native', :subspecs => []
-
-  # Explicitly include Yoga if you are using RN >= 0.42.0
-  pod "Yoga", :path => "../node_modules/react-native/ReactCommon/yoga"
-
-  # Third party deps podspec link
-  pod 'DoubleConversion', :podspec => '../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec'
-  pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
-  # this is needed for boost to compile, `React` has a different version which doesn't work
-  pod 'boost', :podspec => '../node_modules/react-native/third-party-podspecs/boost.podspec'
-  # The guide is not updated yet, it is not `Folly``
-  pod 'RCT-Folly', :podspec => '../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec'
-
   use_modular_headers!
+
   flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
 end
 
 post_install do |installer|
+  # react native
+  react_native_post_install(installer)
+  __apply_Xcode_12_5_M1_post_install_workaround(installer)
+
+  # flutter
   installer.pods_project.targets.each do |target|
     flutter_additional_ios_build_settings(target)
     target.build_configurations.each do |config|
@@ -58,5 +67,5 @@ post_install do |installer|
     end
   end
   # need to replace to a higher version than 12.4
-  `sed -i -e  $'s/__IPHONE_10_0/__IPHONE_13_0/' Pods/RCT-Folly/folly/portability/Time.h`
+  # `sed -i -e  $'s/__IPHONE_10_0/__IPHONE_13_0/' Pods/RCT-Folly/folly/portability/Time.h`
 end
