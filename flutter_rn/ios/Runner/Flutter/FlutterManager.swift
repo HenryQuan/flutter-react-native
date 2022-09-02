@@ -35,10 +35,13 @@ class FlutterManager {
     }
     
     func showFlutterViewController() {
+        print(flutterController)
         navController.pushViewController(self.flutterController, animated: true)
+        navController.viewControllers = [self.flutterController]
     }
 
     private func showReactNativeController() {
+        print(rnController)
         let jsCodeLocation = URL(string: "http://localhost:8081/index.bundle?platform=ios")!
         let rootView = RCTRootView(
             bundleURL: jsCodeLocation,
@@ -53,5 +56,6 @@ class FlutterManager {
         }
 
         navController.pushViewController(rnController, animated: true)
+        navController.viewControllers = [rnController]
     }
 }
