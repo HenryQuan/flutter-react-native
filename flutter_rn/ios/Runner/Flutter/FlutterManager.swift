@@ -12,9 +12,9 @@ import React
 class FlutterManager {
     static let shared = FlutterManager()
     private init() {}
-    
+
     private var rootController: FlutterViewController!
-    
+
     func setupChannels(with controller: FlutterViewController) {
         rootController = controller
         let channel = FlutterMethodChannel(name: "FlutterChannel", binaryMessenger: controller.binaryMessenger)
@@ -30,6 +30,10 @@ class FlutterManager {
         }
     }
     
+    func showFlutterViewController() {
+        rootController.present(rootController, animated: true, completion: nil)
+    }
+
     private func showReactNativeController() {
         let jsCodeLocation = URL(string: "http://localhost:8081/index.bundle?platform=ios")!
         let rootView = RCTRootView(
@@ -38,6 +42,7 @@ class FlutterManager {
             initialProperties: nil,
             launchOptions: nil
         )
+
         let vc = UIViewController()
         vc.view = rootView
         rootController.present(vc, animated: true, completion: nil)
