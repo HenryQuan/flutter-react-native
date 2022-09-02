@@ -19,6 +19,8 @@ class ReactNativeManager: NSObject, RCTBridgeModule {
     }
     
     func showFlutter() {
-        FlutterManager.shared.showFlutterViewController()
+        DispatchQueue.main.async {
+            FlutterManager.shared.showFlutterViewController()
+        }
     }
 }

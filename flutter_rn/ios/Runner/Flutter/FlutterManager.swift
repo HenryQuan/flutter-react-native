@@ -12,16 +12,20 @@ import React
 class FlutterManager {
     static let shared = FlutterManager()
     private init() {}
+    
+    private var navController: UINavigationController!
+    private var flutterController: FlutterViewController!
+    private var rnController: UIViewController!
 
-    private var rootController: FlutterViewController!
-
-    func setupChannels(with controller: FlutterViewController) {
-        rootController = controller
-        let channel = FlutterMethodChannel(name: "FlutterChannel", binaryMessenger: controller.binaryMessenger)
+    func setupChannels(with navController: UINavigationController, and flutterController: FlutterViewController) {
+        navController.isNavigationBarHidden = true
+        
+        self.navController = navController
+        self.flutterController = flutterController
+        let channel = FlutterMethodChannel(name: "FlutterChannel", binaryMessenger: flutterController.binaryMessenger)
         channel.setMethodCallHandler { [weak self] call, result in
             switch call.method {
             case "show_rn":
-                // show the react native view here
                 self?.showReactNativeController()
                 result(true)
             default:
@@ -31,7 +35,7 @@ class FlutterManager {
     }
     
     func showFlutterViewController() {
-        rootController.present(rootController, animated: true, completion: nil)
+        navController.pushViewController(self.flutterController, animated: true)
     }
 
     private func showReactNativeController() {
@@ -42,9 +46,12 @@ class FlutterManager {
             initialProperties: nil,
             launchOptions: nil
         )
+        
+        if (rnController == nil) {
+            rnController = UIViewController()
+            rnController.view = rootView
+        }
 
-        let vc = UIViewController()
-        vc.view = rootView
-        rootController.present(vc, animated: true, completion: nil)
+        navController.pushViewController(rnController, animated: true)
     }
 }
