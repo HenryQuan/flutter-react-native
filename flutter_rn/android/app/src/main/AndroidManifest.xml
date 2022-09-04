@@ -36,6 +36,7 @@
         <activity
             android:name=".ReactNativeActivity"
             android:label="React Native"
+            android:launchMode="singleTop"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         </activity>
     </application>

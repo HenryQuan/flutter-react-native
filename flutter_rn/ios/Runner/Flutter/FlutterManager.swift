@@ -12,14 +12,14 @@ import React
 class FlutterManager {
     static let shared = FlutterManager()
     private init() {}
-    
+
     private var navController: UINavigationController!
     private var flutterController: FlutterViewController!
     private var rnController: UIViewController!
 
     func setupChannels(with navController: UINavigationController, and flutterController: FlutterViewController) {
         navController.isNavigationBarHidden = true
-        
+
         self.navController = navController
         self.flutterController = flutterController
         let channel = FlutterMethodChannel(name: "FlutterChannel", binaryMessenger: flutterController.binaryMessenger)
@@ -33,11 +33,11 @@ class FlutterManager {
             }
         }
     }
-    
+
     func showFlutterViewController() {
         print(flutterController)
-        navController.pushViewController(self.flutterController, animated: true)
-        navController.viewControllers = [self.flutterController]
+        navController.pushViewController(flutterController, animated: true)
+        navController.viewControllers = [flutterController]
     }
 
     private func showReactNativeController() {
@@ -49,8 +49,8 @@ class FlutterManager {
             initialProperties: nil,
             launchOptions: nil
         )
-        
-        if (rnController == nil) {
+
+        if rnController == nil {
             rnController = UIViewController()
             rnController.view = rootView
         }
