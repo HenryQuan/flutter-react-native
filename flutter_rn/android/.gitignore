@@ -11,3 +11,7 @@ GeneratedPluginRegistrant.java
 key.properties
 **/*.keystore
 **/*.jks
+
+# react native
+index.android.bundle
+**/drawable-mdpi/node_modules_*.png

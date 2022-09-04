@@ -4,7 +4,8 @@
     "private": true,
     "scripts": {
         "start": "yarn react-native start",
-        "android": "adb reverse tcp:8081 tcp:8081"
+        "android": "adb reverse tcp:8081 tcp:8081",
+        "build-android": "yarn react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res/"
     },
     "dependencies": {
         "react": "18.0.0",
