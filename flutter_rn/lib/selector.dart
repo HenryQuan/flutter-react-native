@@ -16,6 +16,7 @@ class FrameworkHandler {
   }
 
   void useFlutter() {
+    // flutter.use_rn is the key on the native side
     _preferences.setBool('use_rn', false);
   }
 }
