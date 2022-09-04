@@ -3,7 +3,7 @@
     "version": "0.0.1",
     "private": true,
     "scripts": {
-        "start": "yarn react-native start"
+        "start": "adb reverse tcp:8081 tcp:8081 && yarn react-native start"
     },
     "dependencies": {
         "react": "18.0.0",

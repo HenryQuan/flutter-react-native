@@ -3,6 +3,7 @@ package com.example.flutter_rn
 import android.app.Activity
 import android.os.Bundle
 import android.view.KeyEvent
+import com.example.flutter_rn.react_native.AppPackage
 import com.facebook.react.BuildConfig
 import com.facebook.react.ReactInstanceManager
 import com.facebook.react.ReactPackage
@@ -21,9 +22,11 @@ class ReactNativeActivity : Activity(), DefaultHardwareBackBtnHandler {
         super.onCreate(savedInstanceState)
         SoLoader.init(this, false)
         reactRootView = ReactRootView(this)
-        val packages: List<ReactPackage> = PackageList(application).packages
-        // Packages that cannot be autolinked yet can be added manually here, for example:
-        // packages.add(MyReactNativePackage())
+        val packages: MutableList<ReactPackage> = PackageList(application).packages
+
+
+        // Packages that cannot be autolinked yet can be added manually here
+        packages.add(AppPackage())
         // Remember to include them in `settings.gradle` and `app/build.gradle` too.
         reactInstanceManager = ReactInstanceManager.builder()
             .setApplication(application)
