@@ -1,5 +1,6 @@
 import React from "react";
 import { Button, StyleSheet, Text, View } from "react-native";
+import { Appbar } from "react-native-paper";
 import { NativeManager } from "./native_manager";
 
 
@@ -8,12 +9,16 @@ const RNApp = () => {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.hello}>Hello World from React Native</Text>
-            <Text style={styles.counter}>{counter}</Text>
-            <Button onPress={() => {
-                NativeManager.shared.showFlutter();
-                setCounter(counter + 1);
-            }} title="Show Flutter" />
+            <Appbar.Header>
+                <Appbar.Content title="Home" />
+                <Appbar.Action icon="refresh" onPress={() => {
+                    NativeManager.shared.showFlutter();
+                }} />
+            </Appbar.Header>
+
+            <View style={styles.content}>
+                <Text>Hello World in React Native</Text>
+            </View>
         </View>
     );
 };
@@ -21,7 +26,11 @@ const RNApp = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+    },
+    content: {
+        flex: 1,
         justifyContent: "center",
+        alignItems: "center",
     },
     counter: {
         fontSize: 20,

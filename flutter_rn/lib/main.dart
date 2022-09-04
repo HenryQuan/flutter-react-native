@@ -12,9 +12,9 @@ void main() async {
   if (FrameworkHandler.sharedInstance.isReactNative) {
     FlutterChannel.sharedInstance.showReactNative();
   } else {
-    print("Running Flutter");
-    runApp(const DemoApp());
+    FrameworkHandler.sharedInstance.useFlutter();
   }
+  runApp(const DemoApp());
 }
 
 class DemoApp extends StatelessWidget {
