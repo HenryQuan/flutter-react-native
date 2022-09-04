@@ -4,14 +4,11 @@ import android.app.Activity
 import android.os.Bundle
 import android.view.KeyEvent
 import com.example.flutter_rn.react_native.AppPackage
+import com.facebook.react.*
 import com.facebook.react.BuildConfig
-import com.facebook.react.ReactInstanceManager
-import com.facebook.react.ReactPackage
-import com.facebook.react.ReactRootView
 import com.facebook.react.common.LifecycleState
 import com.facebook.react.modules.core.DefaultHardwareBackBtnHandler
 import com.facebook.soloader.SoLoader
-import com.facebook.react.PackageList
 
 class ReactNativeActivity : Activity(), DefaultHardwareBackBtnHandler {
 
