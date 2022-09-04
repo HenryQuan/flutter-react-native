@@ -16,8 +16,5 @@ class MainActivity : FlutterActivity() {
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
         FlutterManager.setupChannels(this, flutterEngine)
-
-        // add native modules to React Native
-
     }
 }

@@ -20,14 +20,15 @@ class ReactNativeActivity : Activity(), DefaultHardwareBackBtnHandler {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         SoLoader.init(this, false)
         reactRootView = ReactRootView(this)
+
         val packages: MutableList<ReactPackage> = PackageList(application).packages
-
-
         // Packages that cannot be autolinked yet can be added manually here
         packages.add(AppPackage())
         // Remember to include them in `settings.gradle` and `app/build.gradle` too.
+
         reactInstanceManager = ReactInstanceManager.builder()
             .setApplication(application)
             .setCurrentActivity(this)
